@@ -1,0 +1,24 @@
+services:
+
+  db:
+    image: postgres
+    container_name: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: kis123Oits
+      POSTGRES_DB: fhc
+    ports:
+      - "5432:5432"
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: db   # подключение к базе по имени сервиса
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db

@@ -1,0 +1,6 @@
+# Ignoring are files
+.out
+
+# Ignoring directory 
+.vscode
+build

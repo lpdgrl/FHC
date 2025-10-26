@@ -1,0 +1,6 @@
+[submodule "extern/binacpp"]
+	path = extern/binacpp
+	url = https://github.com/binance-exchange/binacpp.git
+[submodule "extern/libpqxx"]
+	path = extern/libpqxx
+	url = https://github.com/jtv/libpqxx.git
