@@ -33,6 +33,7 @@ add_executable(fhc
     ${FHC_CPP_DIR}/server/request_handler.cpp
     ${FHC_CPP_DIR}/base/database.cpp
     ${FHC_CPP_DIR}/base/pqxx_adaptor.cpp
+    ${FHC_CPP_DIR}/base/binance_client.cpp
 )
 
 target_link_libraries(fhc PRIVATE

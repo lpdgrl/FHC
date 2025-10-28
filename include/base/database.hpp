@@ -8,16 +8,17 @@ namespace fhc::base {
     /*
     CREATE TABLE crypto_klines (
         id SERIAL PRIMARY KEY,
-        symbol VARCHAR(10) NOT NULL,
-        interval VARCHAR(5) NOT NULL,
-        open_time BIGINT NOT NULL,
-        open NUMERIC(18,8) NOT NULL,
-        high NUMERIC(18,8) NOT NULL,
-        low NUMERIC(18,8) NOT NULL,
-        close NUMERIC(18,8) NOT NULL,
-        volume NUMERIC(30,8) NOT NULL,
-        close_time BIGINT NOT NULL,
-        UNIQUE(symbol, interval, open_time)
+        open_time BIGINT NOT NULL,              -- время открытия свечи (в мс)
+        open NUMERIC(18,8) NOT NULL,            -- цена открытия
+        high NUMERIC(18,8) NOT NULL,            -- максимальная цена
+        low NUMERIC(18,8) NOT NULL,             -- минимальная цена
+        close NUMERIC(18,8) NOT NULL,           -- цена закрытия
+        volume NUMERIC(24,10) NOT NULL,         -- объём торгов
+        close_time BIGINT NOT NULL,             -- время закрытия свечи (в мс)
+        quote_asset_volume NUMERIC(24,10) NOT NULL, -- объём в котируемом активе
+        trades_count INTEGER NOT NULL,          -- количество сделок
+        taker_buy_base_volume NUMERIC(24,10) NOT NULL, -- объём покупок у тейкеров (в базовом активе)
+        taker_buy_quote_volume NUMERIC(24,10) NOT NULL  -- объём покупок у тейкеров (в котируемом активе)
     );
     */
 

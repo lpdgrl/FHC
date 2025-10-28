@@ -1,10 +1,5 @@
-#include "binacpp.h"
-#include "binacpp_websocket.h"
-#include "pqxx/pqxx"
-
 #include "../include/server/server.hpp"
 
-#include <json/json.h>
 #include <iostream>
 #include <string>
 #include <chrono>
@@ -30,7 +25,7 @@ int main() {
     server.Init();
     server.Run();
 
-    // std::cout << db.isConnected() << std::endl;  
+    // std::cout << db.isConnected() << std::endl;   
     
     
     // try {
