@@ -2,7 +2,7 @@
 
 #include <pqxx/pqxx>
 
-#include "pqxx_adaptor.hpp"
+#include "pqxx_adapter.hpp"
 
 namespace fhc::base {
     /*
@@ -31,10 +31,10 @@ namespace fhc::base {
         void Connect();
         void Disconnect();
         bool isConnected() const;
-        std::shared_ptr<interface::PQXXAdaptor> GetAdapter();
+        std::shared_ptr<interface::IStorageAdapter> GetAdapter();
         
     private:
         std::string connect_options_;
-        std::shared_ptr<interface::PQXXAdaptor> interface_;
+        std::shared_ptr<interface::IStorageAdapter> interface_;
     };
 }

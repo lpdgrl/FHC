@@ -1,7 +1,7 @@
-#include "../../include/base/pqxx_adaptor.hpp"
+#include "../../include/base/pqxx_adapter.hpp"
 
 namespace fhc::base::interface {
-        void PQXXAdaptor::ConnectPQXX(const std::string& options) {
+        void PqxxAdapter::Connect(const std::string& options) {
             // TODO: Add throw and catch exceptions when options empty
             if (options.empty()) {
                 return;
@@ -22,7 +22,7 @@ namespace fhc::base::interface {
             }
         }
 
-        void PQXXAdaptor::DisconnectPQXX() {
+        void PqxxAdapter::Disconnect() {
             // TODO: Add throw and catch exceptions when unique_ptr is nullptr
             if (connection_ == nullptr) {
                 return;
@@ -35,14 +35,14 @@ namespace fhc::base::interface {
             }
         }
 
-        void PQXXAdaptor::Execute(const std::string& query) {
+        void PqxxAdapter::Execute(const std::string& query) const {
             pqxx::work txn(*connection_);
 
             pqxx::result r = txn.exec(query);
             txn.commit();
         }
 
-        std::vector<std::vector<std::string>> PQXXAdaptor::Query(const std::string& query) {
+        std::vector<std::vector<std::string>> PqxxAdapter::Query(const std::string& query) const {
             // TODO: Switch to nontransaction object
             std::vector<std::vector<std::string>> result;
             pqxx::work txn(*connection_);
@@ -66,12 +66,7 @@ namespace fhc::base::interface {
             return result;
         }
 
-        // raw connection. This method is testing
-        pqxx::connection& PQXXAdaptor::GetConnection() {
-            return *connection_;
-        }
-
-        bool PQXXAdaptor::IsConnected() const {
+        bool PqxxAdapter::IsConnected() const {
             return connection_ && connection_->is_open();
         }
 }

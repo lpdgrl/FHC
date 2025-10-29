@@ -32,7 +32,7 @@ add_executable(fhc
     ${FHC_CPP_DIR}/server/server.cpp
     ${FHC_CPP_DIR}/server/request_handler.cpp
     ${FHC_CPP_DIR}/base/database.cpp
-    ${FHC_CPP_DIR}/base/pqxx_adaptor.cpp
+    ${FHC_CPP_DIR}/base/pqxx_adapter.cpp
     ${FHC_CPP_DIR}/base/binance_client.cpp
 )
 

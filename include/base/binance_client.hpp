@@ -34,7 +34,7 @@ namespace fhc::base::API {
         double volume;                     // объём торгов
         uint64_t close_time;               // время закрытия свечи (в мс)
         double quote_asset_volume;         // объём в котируемом активе
-        unsigned int trades_count;         // количество сделок
+        int trades_count;                  // количество сделок
         double taker_buy_base_volume;      // объём покупок у тейкеров (в базовом активе)
         double taker_buy_quote_volume;     // объём покупок у тейкеров (в котируемом активе)
     };
@@ -45,9 +45,11 @@ namespace fhc::base::API {
         explicit BinanceClient(const std::string& api_key, const std::string& secret_key);
 
         std::vector<Kline> GetKlines(const std::string& symbol, uint64_t start_time, uint64_t end_time) const;
+        std::string GetServerTime() const;
 
         ~BinanceClient() = default;
     private:
+        Kline ReturnKline(const std::string& symbol, const Json::Value& value) const;
         std::string api_key_;
         std::string secret_key_;
     };
