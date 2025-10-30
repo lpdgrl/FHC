@@ -4,3 +4,6 @@
 [submodule "extern/libpqxx"]
 	path = extern/libpqxx
 	url = https://github.com/jtv/libpqxx.git
+[submodule "extern/flatbuffers"]
+	path = extern/flatbuffers
+	url = https://github.com/google/flatbuffers.git

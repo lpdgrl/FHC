@@ -15,6 +15,8 @@ namespace fhc::server {
 
         ~Server() = default;
     private:
+        void InitializationDatabase();
+
         std::unique_ptr<base::Database> db_;
         std::unique_ptr<RequestHandler> handler_;
         bool running_ = false;

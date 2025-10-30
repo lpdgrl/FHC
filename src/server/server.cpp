@@ -8,13 +8,34 @@ namespace fhc::server {
         db_ = std::make_unique<base::Database>(options);
         handler_ = std::make_unique<server::RequestHandler>(db_->GetAdapter());
     }
-    
+
     void Server::Run() {
-        // TODO: Add throw and catch exceptions if db_ is nullptr
+        // TODO: Add throw and catch exceptions if db_ is nullptr?
         if (db_ != nullptr) {
             db_->Connect();
         }
+        
+        // TODO: Some need in future
+        running_ = true;
+        
+        handler_->SendToFront({2025, 10, 01}, {2025, 10, 30});
 
+        // TODO: Add select when this run
+        // InitializationDatabase();
+        // handler_->PopulateDatabase();
+    }
+
+    void Server::Stop() {
+        // TODO: Add throw and catch exceptions if db_ is nullptr
+        if (db_ != nullptr) {
+            db_->Disconnect();
+        }
+    }
+
+    bool Server::IsRun() const {
+        return running_;
+    }
+    void Server::InitializationDatabase() {
         std::string create_table = R"(
             CREATE TABLE crypto_klines (
                 id SERIAL PRIMARY KEY,
@@ -34,51 +55,5 @@ namespace fhc::server {
             );
         )";
         handler_->ExecuteQuery(create_table);
-        std::string symbol_crypto;
-
-        auto duration_since_epoch = std::chrono::steady_clock::now().time_since_epoch();
-        auto milliseconds_since_epoch = std::chrono::duration_cast<std::chrono::milliseconds>(duration_since_epoch).count();
-
-        std::cout << milliseconds_since_epoch << std::endl;
-        auto current_milliseconds = std::stoull(handler_->GetTimeFromBinance());
-        for (long long unsigned int start_time = 1502942428000; start_time < current_milliseconds; start_time += 1000000) {
-            auto end_time = start_time + 1000000;
-            auto result = handler_->GetKlines("BTCUSDT"s, start_time, end_time);
-            for (const auto& kline : result) {
-            std::string query =
-                "INSERT INTO crypto_klines "
-                "(symbol, open_time, open, high, low, close, volume, close_time, "
-                "quote_asset_volume, trades_count, taker_buy_base_volume, taker_buy_quote_volume) "
-                "VALUES ('" + kline.symbol + "'," +
-                std::to_string(kline.open_time) + "," +
-                std::to_string(kline.open) + "," +
-                std::to_string(kline.high) + "," +
-                std::to_string(kline.low) + "," +
-                std::to_string(kline.close) + "," +
-                std::to_string(kline.volume) + "," +
-                std::to_string(kline.close_time) + "," +
-                std::to_string(kline.quote_asset_volume) + "," +
-                std::to_string(kline.trades_count) + "," +
-                std::to_string(kline.taker_buy_base_volume) + "," +
-                std::to_string(kline.taker_buy_quote_volume) +
-                ");";
-                std::cout << query << std::endl;
-                handler_->ExecuteQuery(query);
-            }
-            std::cout << result.size() << std::endl;
-        }
-       
-        // handler_->HandledQuery("SELECT * FROM crypto_klines"s);
-    }
-
-    void Server::Stop() {
-        // TODO: Add throw and catch exceptions if db_ is nullptr
-        if (db_ != nullptr) {
-            db_->Disconnect();
-        }
-    }
-
-    bool Server::IsRun() const {
-        return running_;
     }
 }

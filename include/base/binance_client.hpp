@@ -44,7 +44,7 @@ namespace fhc::base::API {
         BinanceClient() = default;
         explicit BinanceClient(const std::string& api_key, const std::string& secret_key);
 
-        std::vector<Kline> GetKlines(const std::string& symbol, uint64_t start_time, uint64_t end_time) const;
+        std::vector<Kline> GetKlines(const std::string& symbol, const std::string& interval, uint64_t start_time, uint64_t end_time) const;
         std::string GetServerTime() const;
 
         ~BinanceClient() = default;

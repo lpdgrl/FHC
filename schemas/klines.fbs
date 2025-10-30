@@ -1,0 +1,23 @@
+namespace marketdata;
+
+table Kline {    
+    id:int;                            // id 
+    symbol:string;                     // торговая пара, например BTCUSDT
+    open_time:ulong;                   // время открытия свечи (в мс)
+    open:double;                       // цена открытия
+    high:double;                       // максимальная цена
+    low:double;                        // минимальная цена
+    close:double;                      // цена закрытия
+    volume:double;                     // объём торгов
+    close_time:ulong;                  // время закрытия свечи (в мс)
+    quote_asset_volume:double;         // объём в котируемом активе
+    trades_count:int;                  // количество сделок
+    taker_buy_base_volume:double;      // объём покупок у тейкеров (в базовом активе)
+    taker_buy_quote_volume:double;     // объём покупок у тейкеров (в котируемом активе)
+}
+
+table KlineList {
+    klines:[Kline];
+}
+
+root_type KlineList;
