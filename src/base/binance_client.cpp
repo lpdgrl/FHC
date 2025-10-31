@@ -36,21 +36,20 @@ namespace fhc::base::API {
      }
 
     Kline BinanceClient::ReturnKline(const std::string& symbol, const Json::Value& value) const {
-        Kline kline;
-        
-        // TODO: Scary expressions
-        kline.symbol = symbol;
-        kline.open_time = std::stoull(value[0].asString());
-        kline.open = std::stod(value[1].asString());
-        kline.high = std::stod(value[2].asString());
-        kline.low = std::stod(value[3].asString());
-        kline.close = std::stod(value[4].asString());
-        kline.volume = std::stod(value[5].asString());
-        kline.close_time = std::stoull(value[6].asString());
-        kline.quote_asset_volume = std::stod(value[7].asString());
-        kline.trades_count = std::stoi(value[8].asString());
-        kline.taker_buy_base_volume = std::stod(value[9].asString());
-        kline.taker_buy_quote_volume = std::stod(value[10].asString());
+        Kline kline {
+            .symbol = symbol,
+            .open_time = std::stoull(value[0].asString()),
+            .open = std::stod(value[1].asString()),
+            .high = std::stod(value[2].asString()),
+            .low = std::stod(value[3].asString()),
+            .close = std::stod(value[4].asString()),
+            .volume = std::stod(value[5].asString()),
+            .close_time = std::stoull(value[6].asString()),
+            .quote_asset_volume = std::stod(value[7].asString()),
+            .trades_count = std::stoi(value[8].asString()),
+            .taker_buy_base_volume = std::stod(value[9].asString()),
+            .taker_buy_quote_volume = std::stod(value[10].asString()),
+        };
 
         return kline;
     }
