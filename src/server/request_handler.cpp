@@ -99,6 +99,7 @@ namespace fhc::server {
         auto since_begins_year_2025 = EpochUnixTimeToBinanceTime(GetTimeSinceEpoch({2025, 1, 1}));
         auto current_milliseconds = GetTimeFromBinance();
 
+        // TODO: Replace all magic number on the constant
         for (long long unsigned int start_time = since_begins_year_2025; start_time < current_milliseconds; start_time += 59999999) {
             auto end_time = start_time + 60000000;
             auto result = GetKlines(symbol_crypto, interval, start_time, end_time);
