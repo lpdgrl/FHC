@@ -1,0 +1,5 @@
+# TODO: In the future, we need to add a description and an example.
+DB_HOST=localhost
+DB_NAME=postgres
+DB_USER=postgres
+DB_PASSWORD=postgres

@@ -7,3 +7,6 @@
 [submodule "extern/flatbuffers"]
 	path = extern/flatbuffers
 	url = https://github.com/google/flatbuffers.git
+[submodule "extern/cpp-httplib"]
+	path = extern/cpp-httplib
+	url = https://github.com/yhirose/cpp-httplib.git

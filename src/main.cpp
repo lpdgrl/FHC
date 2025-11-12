@@ -1,11 +1,17 @@
 #include "../include/server/server.hpp"
 
-int main() {
+#include <iostream>
 
+void RunServer();
 
+int main(int argc, const char** argv) {
+    RunServer();
+
+    return EXIT_SUCCESS;
+}
+
+void RunServer() {
     fhc::server::Server server;
     server.Init();
     server.Run();
-
-    return EXIT_SUCCESS;
 }

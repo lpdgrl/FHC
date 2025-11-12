@@ -1,20 +1,16 @@
 cmake_minimum_required(VERSION 3.10)
 project (fhc)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(BINACPP_DIR extern/binacpp)
 set(LIBPQXX_DIR extern/libpqxx)
 set(FLATBUFFERS_DIR extern/flatbuffers)
-
+set(CPP_HTTPLIB_DIR extern/cpp-httplib)
 
 set(FHC_HEADERS_DIR include)
 set(FHC_CPP_DIR src)
-
-# set(FHC_CPP
-#     ${FHC_CPP_DIR}/main.cpp
-# )
 
 # Add binacpp
 add_subdirectory(${BINACPP_DIR})
@@ -24,6 +20,9 @@ add_subdirectory(${LIBPQXX_DIR})
 
 # Add flattbuffers
 add_subdirectory(${FLATBUFFERS_DIR})
+
+# Add cpp-httplib
+add_subdirectory(${CPP_HTTPLIB_DIR})
 
 # Generate flatbuffers files
 set(FLATC ${FLATBUFFERS_DIR}/flatc)
@@ -50,6 +49,7 @@ add_executable(fhc
     ${FHC_CPP_DIR}/main.cpp
     ${FHC_CPP_DIR}/server/server.cpp
     ${FHC_CPP_DIR}/server/request_handler.cpp
+    ${FHC_CPP_DIR}/server/utils.cpp
     ${FHC_CPP_DIR}/base/database.cpp
     ${FHC_CPP_DIR}/base/pqxx_adapter.cpp
     ${FHC_CPP_DIR}/base/binance_client.cpp
@@ -61,4 +61,5 @@ target_link_libraries(fhc PRIVATE
     binacpp
     pqxx
     flatbuffers
+    httplib
 )

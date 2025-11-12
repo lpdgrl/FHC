@@ -4,9 +4,14 @@ namespace fhc::server {
     using namespace std::literals;
 
     void Server::Init() {
-        std::string options = "host=localhost dbname=fhc user=postgres password=kis123Oits"s;
+        utils::Config config = utils::ReadConfig();
+        std::string options(config());
         db_ = std::make_unique<base::Database>(options);
+
         handler_ = std::make_unique<server::RequestHandler>(db_->GetAdapter());
+        http_svr_ = std::make_unique<httplib::Server>();
+
+        sql_loader_ = std::make_unique<base::sql_loader::SqlLoader>();
     }
 
     void Server::Run() {
@@ -15,6 +20,14 @@ namespace fhc::server {
             db_->Connect();
         }
         
+        sql_loader_
+        
+        http_svr_->Get("/hi", [](const httplib::Request &, httplib::Response &res) {
+            res.set_content("Hello World!", "text/plain");
+            });
+
+        http_svr_->listen("0.0.0.0", 8000);
+         
         // TODO: Some need in future
         running_ = true;
         
@@ -25,7 +38,7 @@ namespace fhc::server {
         // handler_->PopulateDatabase();
     }
 
-    void Server::Stop() {
+    void Server::Stop() { 
         // TODO: Add throw and catch exceptions if db_ is nullptr
         if (db_ != nullptr) {
             db_->Disconnect();
