@@ -16,8 +16,8 @@ namespace fhc::base::interface {
         virtual bool IsConnected() const = 0;
 
         virtual void Execute(const std::string& query) const = 0;
-        virtual std::vector<std::vector<std::string>> Query(const std::string& query) const = 0;
-
+        // virtual std::vector<std::vector<std::string>> Query(const std::string& query, Args&& args) const = 0;
+        // virtual std::vector<std::vector<std::string>> Query(const std::string& query) const = 0;
         virtual ~IStorageAdapter() = default;
     };
 }

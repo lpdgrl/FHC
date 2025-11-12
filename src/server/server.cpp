@@ -4,9 +4,30 @@ namespace fhc::server {
     using namespace std::literals;
 
     void Server::Init() {
-        std::string options = "host=localhost dbname=fhc user=postgres password=kis123Oits"s;
+        utils::Config config = utils::ReadConfig();
+        std::string options(config());
+        
         db_ = std::make_unique<base::Database>(options);
-        handler_ = std::make_unique<server::RequestHandler>(db_->GetAdapter());
+
+        http_svr_ = std::make_unique<http_adapter::HttpLibAdapter>();
+        sql_loader_ = std::make_shared<fhc::base::sql_loader::SqlLoader>();
+
+        request_handler_ = std::make_unique<server::RequestHandler>(db_->GetAdapter(), sql_loader_);
+
+        sql_loader_->LoadSQL("create_table_crypto_klines"s);
+        sql_loader_->LoadSQL("select_klines"s);
+        sql_loader_->LoadSQL("insert_kline"s);
+        sql_loader_->LoadSQL("select_last_kline"s);
+        sql_loader_->LoadSQL("select_exists_crypto_klines"s);
+
+        // TODO: Read settings from config
+        http_svr_->Init({config.http_host, config.http_port});
+
+        AddHandlerToHttpSvr();
+    }
+
+    void Server::SetMountPoint(const std::string& root, const std::string& path_to_files) const {
+        http_svr_->SetMountPoint(root, path_to_files);
     }
 
     void Server::Run() {
@@ -14,46 +35,64 @@ namespace fhc::server {
         if (db_ != nullptr) {
             db_->Connect();
         }
-        
+
+        if (!request_handler_->IsTableExists("crypto_klines"s)) {
+            request_handler_->InitDataBase();
+            request_handler_->PopulateDatabase({2025, 8, 1});
+        }
+
+        http_svr_->Run();
+
         // TODO: Some need in future
         running_ = true;
         
-        handler_->SendToFront({2025, 10, 01}, {2025, 10, 30});
-
-        // TODO: Add select when this run
-        // InitializationDatabase();
-        // handler_->PopulateDatabase();
     }
 
-    void Server::Stop() {
+    void Server::Stop() { 
         // TODO: Add throw and catch exceptions if db_ is nullptr
         if (db_ != nullptr) {
             db_->Disconnect();
         }
+        
+        if (http_svr_ != nullptr) {
+            http_svr_->Stop();
+        }
+
+        running_ = false;
     }
 
     bool Server::IsRun() const {
         return running_;
     }
-    void Server::InitializationDatabase() {
-        std::string create_table = R"(
-            CREATE TABLE crypto_klines (
-                id SERIAL PRIMARY KEY,
-                symbol VARCHAR(10) NOT NULL,            -- торговая пара, например BTCUSDT
-                open_time BIGINT NOT NULL,              -- время открытия свечи (в мс)
-                open NUMERIC(18,8) NOT NULL,            -- цена открытия
-                high NUMERIC(18,8) NOT NULL,            -- максимальная цена
-                low NUMERIC(18,8) NOT NULL,             -- минимальная цена
-                close NUMERIC(18,8) NOT NULL,           -- цена закрытия
-                volume NUMERIC(24,10) NOT NULL,         -- объём торгов
-                close_time BIGINT NOT NULL,             -- время закрытия свечи (в мс)
-                quote_asset_volume NUMERIC(24,10) NOT NULL, -- объём в котируемом активе
-                trades_count INTEGER NOT NULL,          -- количество сделок
-                taker_buy_base_volume NUMERIC(24,10) NOT NULL, -- объём покупок у тейкеров (в базовом активе)
-                taker_buy_quote_volume NUMERIC(24,10) NOT NULL, -- объём покупок у тейкеров (в котируемом активе)
-                UNIQUE (symbol, open_time)              -- уникальность по паре и времени открытия
-            );
-        )";
-        handler_->ExecuteQuery(create_table);
+
+    flatbuffers::FlatBufferBuilder Server::GetKlinesFromStorage(const std::string& start_date, const std::string& end_date) const {
+        return request_handler_->GetKlinesFromStorage(start_date, end_date);
+    }
+
+    std::string Server::UpdateKlinesInStorage() const {
+        return request_handler_->UpdateKlinesInStorage();
+    }
+
+    void Server::SetHandler(const std::string& path, HTTPHandler http_handler) {
+        handlers_[path] = http_handler;
+    }
+
+    void Server::RemoveHandler(const std::string& path) {
+        // TODO: Needs add substitution handler with response 404 when deleted handler in Server hash-map
+        if (auto it_find_path = handlers_.find(path); it_find_path != handlers_.end()) {
+            handlers_.erase(path);
+        }
+    }
+
+    void Server::AddHandlerToHttpSvr() const {
+        if (!handlers_.empty()) {
+            for (const auto& [path, http_handler] : handlers_) {
+                switch (http_handler.http_method) {
+                    case HTTP_METHOD::GET:
+                        http_svr_->Get(path, http_handler.handler, http_handler.content_type);
+                        break;
+                }
+            }
+        }
     }
 }
