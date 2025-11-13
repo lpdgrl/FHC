@@ -20,8 +20,6 @@ namespace fhc::server {
             db_->Connect();
         }
         
-        sql_loader_
-        
         http_svr_->Get("/hi", [](const httplib::Request &, httplib::Response &res) {
             res.set_content("Hello World!", "text/plain");
             });
