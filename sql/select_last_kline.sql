@@ -1,0 +1,1 @@
+SELECT open_time FROM crypto_klines ORDER BY open_time DESC LIMIT 1

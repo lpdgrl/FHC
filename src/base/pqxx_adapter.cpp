@@ -42,31 +42,24 @@ namespace fhc::base::interface {
             txn.commit();
         }
 
-        std::vector<std::vector<std::string>> PqxxAdapter::Query(const std::string& query) const {
-            // TODO: Switch to nontransaction object
-            std::vector<std::vector<std::string>> result;
-            pqxx::work txn(*connection_);
-
-            pqxx::result r = txn.exec(query);
-            txn.commit();
-
-            if (r.size() > 0) {
-                result.reserve(r.size());
-            }
-
-            
-            for (size_t i = 0; i < r.size(); ++i) {
-                std::vector<std::string> row;
-                for (size_t j = 0; j < r[i].size(); ++j) {
-                   row.emplace_back(r[i][j].c_str());
-                }
-                result.push_back(std::move(row));
-            }
-
-            return result;
-        }
-
         bool PqxxAdapter::IsConnected() const {
             return connection_ && connection_->is_open();
+        }
+
+        std::vector<std::vector<std::string>> PqxxAdapter::PqxxResultToVectorStr(pqxx::result& result) const {
+            std::vector<std::vector<std::string>> res;
+
+            if (result.size() > 0) {
+                res.reserve(result.size());
+            }
+            
+            for (size_t i = 0; i < result.size(); ++i) {
+                std::vector<std::string> row;
+                for (size_t j = 0; j < result[i].size(); ++j) {
+                   row.emplace_back(result[i][j].as<std::string>());
+                }
+                res.push_back(std::move(row));
+            }
+            return res;
         }
 }

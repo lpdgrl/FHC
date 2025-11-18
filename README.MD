@@ -1,1 +1,1 @@
-### Binance historical converter
+### Binance historical storage

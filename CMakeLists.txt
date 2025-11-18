@@ -46,13 +46,16 @@ include_directories(
 
 # Target executable file
 add_executable(fhc 
-    ${FHC_CPP_DIR}/main.cpp
+    examples/http_example.cpp
+    # ${FHC_CPP_DIR}/main.cpp
     ${FHC_CPP_DIR}/server/server.cpp
     ${FHC_CPP_DIR}/server/request_handler.cpp
     ${FHC_CPP_DIR}/server/utils.cpp
+    ${FHC_CPP_DIR}/server/httplib_adapter.cpp
     ${FHC_CPP_DIR}/base/database.cpp
     ${FHC_CPP_DIR}/base/pqxx_adapter.cpp
     ${FHC_CPP_DIR}/base/binance_client.cpp
+    ${FHC_CPP_DIR}/base/sql_loader.cpp
 )
 
 add_dependencies(fhc generate_flatbuffers)

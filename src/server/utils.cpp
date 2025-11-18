@@ -23,7 +23,9 @@ namespace fhc::server::utils {
             .host = result["DB_HOST"],
             .name = result["DB_NAME"],
             .user = result["DB_USER"],
-            .password = result["DB_PASSWORD"]
+            .password = result["DB_PASSWORD"],
+            .http_host = result["HTTP_HOST"],
+            .http_port = std::stoi(result["HTTP_PORT"])
         };
         
         return config;

@@ -11,6 +11,8 @@ namespace fhc::server::utils {
         std::string name;
         std::string user;
         std::string password;
+        std::string http_host;
+        int http_port;
 
         std::string operator()() const {
             return {"host=" + host + " dbname=" + name + " user=" + user + " password=" + password};

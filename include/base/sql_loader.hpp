@@ -8,6 +8,7 @@
 
 namespace fhc::base::sql_loader {
     static const std::string SQL_DIR_PATH("/sql/");
+    static const std::string SQL_FILE_SUFFIX(".sql");
 
     class SqlLoader {
     public:

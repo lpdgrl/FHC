@@ -1,5 +1,6 @@
-# TODO: In the future, we need to add a description and an example.
 DB_HOST=localhost
 DB_NAME=postgres
 DB_USER=postgres
 DB_PASSWORD=postgres
+HTTP_HOST=0.0.0.0
+HTTP_PORT=8000
