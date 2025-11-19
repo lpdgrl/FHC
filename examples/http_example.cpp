@@ -50,7 +50,7 @@ void RunServer() {
     server.SetHandler("/api/update", {server::HTTP_METHOD::GET, api_klines_update, "text/plain"});
 
     server.Init();
-    server.SetMountPoint("/", "../examples/web/");
+    server.SetMountPoint("/", CMAKE_PATH_TO_WEB_FILES);
     std::cout << "Start server!" << std::endl;
     server.Run();
 }

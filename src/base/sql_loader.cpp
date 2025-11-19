@@ -2,9 +2,7 @@
 
 namespace fhc::base::sql_loader {
     void SqlLoader::LoadSQL(const std::string& file_name) {
-        auto parent_dir = std::filesystem::current_path().parent_path();
-
-        std::ifstream sql_file(parent_dir.c_str() + SQL_DIR_PATH + file_name + SQL_FILE_SUFFIX, std::ios::in);
+        std::ifstream sql_file(CMAKE_SQL_PATH + file_name + SQL_FILE_SUFFIX, std::ios::in);
 
         if (!sql_file.is_open()) {
             std::cerr << "File " << file_name << " doesn't opened!" << std::endl;

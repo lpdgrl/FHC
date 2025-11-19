@@ -6,6 +6,7 @@ namespace fhc::server {
     void Server::Init() {
         utils::Config config = utils::ReadConfig();
         std::string options(config());
+        
         db_ = std::make_unique<base::Database>(options);
 
         http_svr_ = std::make_unique<http_adapter::HttpLibAdapter>();
@@ -26,7 +27,6 @@ namespace fhc::server {
     }
 
     void Server::SetMountPoint(const std::string& root, const std::string& path_to_files) const {
-        // http_svr_->SetMountPoint("/", "/home/lpdgrl/Project/code/FHC/examples/web");
         http_svr_->SetMountPoint(root, path_to_files);
     }
 

@@ -19,7 +19,7 @@ namespace fhc::server::utils {
         }
     };
 
-    static const std::string CONFIG_PATH("/config/.nfile");
+    static const std::string CONFIG_FILE(".nfile");
 
     static const char SIGN_EQUAL = '=';
 
