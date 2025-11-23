@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Test Klines</title>
+</head>
+<body>
+
+<h2>FlatBuffers Raw Test</h2>
+<div>
+    Start Date: <input type="date" id="StartTime" value="date">
+    End Date: <input type="date" id="EndTime" value="date">
+    <button onclick="testKlines()">Test</button>
+</div>
+
+<script>
+async function testKlines() {
+    const start = document.getElementById("StartTime").value;
+    const end   = document.getElementById("EndTime").value;
+
+    try {
+        const res = await fetch(`/api/klines?StartTime=${encodeURIComponent(start)}&EndTime=${encodeURIComponent(end)}`);
+        const arrayBuffer = await res.arrayBuffer();
+        const bytes = new Uint8Array(arrayBuffer);
+
+        console.log("Raw bytes received:", bytes);
+        console.log("Number of bytes:", bytes.length);
+    } catch (e) {
+        console.error("Error fetching Klines:", e);
+    }
+}
+</script>
+
+</body>
+</html>

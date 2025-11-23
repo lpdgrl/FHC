@@ -1,9 +1,16 @@
-[submodule "extern/binacpp"]
-	path = extern/binacpp
-	url = https://github.com/binance-exchange/binacpp.git
-[submodule "extern/libpqxx"]
-	path = extern/libpqxx
+[submodule "_deps/cpp-httplib"]
+	path = _deps/cpp-httplib
+	url = https://github.com/yhirose/cpp-httplib.git
+	branch = master
+[submodule "_deps/binacpp"]
+	path = _deps/binacpp
+	url = https://github.com/lpdgrl/binacpp.git
+	branch = master
+[submodule "_deps/libpqxx"]
+	path = _deps/libpqxx
 	url = https://github.com/jtv/libpqxx.git
-[submodule "extern/flatbuffers"]
-	path = extern/flatbuffers
+	branch = master
+[submodule "_deps/flatbuffers"]
+	path = _deps/flatbuffers
 	url = https://github.com/google/flatbuffers.git
+	branch = master
