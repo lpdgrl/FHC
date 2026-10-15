@@ -1,0 +1,1 @@
+SELECT * FROM crypto_klines WHERE open_time >= $1 AND close_time <= $2
